@@ -38,9 +38,20 @@ public class SimpleCarController : MonoBehaviour
 
     public void FixedUpdate()
     {
-        float motor=maxMotorTorque * Input.GetAxis("Vertical");
-            
-        float steering = maxSteeringAngle * Input.GetAxis("Horizontal");
+        float motor = 0;
+        if (Input.GetAxis("VerticalDown") > -.1) {
+            motor =-1*maxMotorTorque * Input.GetAxis("VerticalUp");
+        }
+        else if (Input.GetAxis("VerticalUp") > -1)
+        {
+            motor = maxMotorTorque * Input.GetAxis("VerticalDown");
+        }
+        else
+        {
+            //Funcion de frenado
+        }
+       
+        float steering = maxSteeringAngle * Input.GetAxis("HorizontalC");
 
         foreach (AxleInfo axleInfo in axleInfos)
         {

@@ -290,6 +290,7 @@
   <ItemGroup>
     <Compile Include="Assets\Movimiento.cs" />
     <Compile Include="Assets\Pruebas\Cameracontroller.cs" />
+    <Compile Include="Assets\Pruebas\Jugador2.cs" />
     <Compile Include="Assets\Pruebas\Movement.cs" />
     <Compile Include="Assets\Pruebas\SimpleCarController.cs" />
   </ItemGroup>
