@@ -16,6 +16,7 @@ public class Jugador2 : MonoBehaviour
     public List<AxleInfo> axleInfos;
     public float maxMotorTorque;
     public float maxSteeringAngle;
+    public float maxFreno;
 
     // finds the corresponding visual wheel
     // correctly applies the transform
@@ -38,24 +39,38 @@ public class Jugador2 : MonoBehaviour
 
     public void FixedUpdate()
     {
-        float motor = maxMotorTorque * Input.GetAxis("Vertical");
+        float motor = maxMotorTorque * Input.GetAxisRaw("Vertical");
 
         float steering = maxSteeringAngle * Input.GetAxis("Horizontal");
 
-        foreach (AxleInfo axleInfo in axleInfos)
-        {
-            if (axleInfo.steering)
+        float freno = maxFreno * Input.GetAxisRaw("Jump");
+
+            foreach (AxleInfo axleInfo in axleInfos)
             {
-                axleInfo.leftWheel.steerAngle = steering;
-                axleInfo.rightWheel.steerAngle = steering;
+                WheelFrictionCurve frenoI = axleInfo.leftWheel.forwardFriction;
+                frenoI.stiffness = 1f;
+                axleInfo.leftWheel.forwardFriction = frenoI;
+
+                WheelFrictionCurve frenoD = axleInfo.rightWheel.forwardFriction;
+                frenoD.stiffness = 1f;
+                axleInfo.rightWheel.forwardFriction = frenoD;
+
+                axleInfo.leftWheel.brakeTorque = 0;
+                axleInfo.rightWheel.brakeTorque = 0;
+                if (axleInfo.steering)
+                {
+                    axleInfo.leftWheel.steerAngle = steering;
+                    axleInfo.rightWheel.steerAngle = steering;
+                }
+                if (axleInfo.motor)
+                {
+                    axleInfo.leftWheel.motorTorque = motor;
+                    axleInfo.rightWheel.motorTorque = motor;
+                }
+                    axleInfo.leftWheel.brakeTorque = freno;
+                    axleInfo.rightWheel.brakeTorque = freno;
+                ApplyLocalPositionToVisuals(axleInfo.leftWheel);
+                ApplyLocalPositionToVisuals(axleInfo.rightWheel);
             }
-            if (axleInfo.motor)
-            {
-                axleInfo.leftWheel.motorTorque = motor;
-                axleInfo.rightWheel.motorTorque = motor;
-            }
-            ApplyLocalPositionToVisuals(axleInfo.leftWheel);
-            ApplyLocalPositionToVisuals(axleInfo.rightWheel);
-        }
     }
 }

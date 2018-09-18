@@ -290,9 +290,11 @@
   <ItemGroup>
     <Compile Include="Assets\Movimiento.cs" />
     <Compile Include="Assets\Pruebas\Cameracontroller.cs" />
+    <Compile Include="Assets\Pruebas\Checkpoints.cs" />
     <Compile Include="Assets\Pruebas\Jugador2.cs" />
     <Compile Include="Assets\Pruebas\Movement.cs" />
     <Compile Include="Assets\Pruebas\SimpleCarController.cs" />
+    <Compile Include="Assets\Pruebas\Tiempo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
